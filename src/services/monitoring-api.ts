@@ -78,6 +78,10 @@ class MonitoringAPI {
       body: JSON.stringify(metrics),
     });
   }
+
+  async getProcessStatus(): Promise<{ running: string[]; stopped: string[] }> {
+    return this.request<{ running: string[]; stopped: string[] }>("/process-status");
+  }
 }
 
 export const monitoringApi = new MonitoringAPI();

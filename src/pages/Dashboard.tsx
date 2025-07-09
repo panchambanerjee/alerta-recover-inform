@@ -7,6 +7,7 @@ import { Activity, Clock, CheckCircle, AlertTriangle } from "lucide-react";
 import { monitoringApi } from "@/services/monitoring-api";
 import { SystemStatus, Alert, Escalation, Metrics } from "@/types/monitoring";
 import { useToast } from "@/hooks/use-toast";
+import { ProcessStatusPanel } from "@/components/ProcessStatusPanel";
 
 const Dashboard = () => {
   const [systemStatus, setSystemStatus] = useState<SystemStatus | null>(null);
@@ -157,6 +158,7 @@ const Dashboard = () => {
           <AlertsPanel alerts={alerts} />
           <EscalationHistory escalations={escalations} />
         </div>
+        <ProcessStatusPanel />
       </div>
     </div>
   );
