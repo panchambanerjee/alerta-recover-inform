@@ -1,6 +1,6 @@
 import { SystemStatus, Alert, Escalation, Metrics } from "@/types/monitoring";
 
-const API_BASE_URL = "http://localhost:8000"; // Change this to your Python backend URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api";
 
 class MonitoringAPI {
   private async request<T>(endpoint: string, options?: RequestInit): Promise<T> {
@@ -21,12 +21,12 @@ class MonitoringAPI {
 
   // Get current system status
   async getSystemStatus(): Promise<SystemStatus> {
-    return this.request<SystemStatus>("/api/system-status");
+    return this.request<SystemStatus>("/system-status");
   }
 
   // Update system status (called by your Python backend)
   async updateSystemStatus(status: SystemStatus): Promise<void> {
-    await this.request("/api/system-status", {
+    await this.request("/system-status", {
       method: "POST",
       body: JSON.stringify(status),
     });
@@ -34,12 +34,12 @@ class MonitoringAPI {
 
   // Get active alerts
   async getAlerts(): Promise<Alert[]> {
-    return this.request<Alert[]>("/api/alerts");
+    return this.request<Alert[]>("/alerts");
   }
 
   // Create new alert (called by your Python backend)
   async createAlert(alert: Alert): Promise<void> {
-    await this.request("/api/alerts", {
+    await this.request("/alerts", {
       method: "POST",
       body: JSON.stringify(alert),
     });
@@ -47,7 +47,7 @@ class MonitoringAPI {
 
   // Update alert status
   async updateAlert(alertId: string, updates: Partial<Alert>): Promise<void> {
-    await this.request(`/api/alerts/${alertId}`, {
+    await this.request(`/alerts/${alertId}`, {
       method: "PUT",
       body: JSON.stringify(updates),
     });
@@ -55,12 +55,12 @@ class MonitoringAPI {
 
   // Get escalation history
   async getEscalations(): Promise<Escalation[]> {
-    return this.request<Escalation[]>("/api/escalations");
+    return this.request<Escalation[]>("/escalations");
   }
 
   // Create escalation record (called by your Python backend)
   async createEscalation(escalation: Escalation): Promise<void> {
-    await this.request("/api/escalations", {
+    await this.request("/escalations", {
       method: "POST",
       body: JSON.stringify(escalation),
     });
@@ -68,12 +68,12 @@ class MonitoringAPI {
 
   // Get current metrics
   async getMetrics(): Promise<Metrics> {
-    return this.request<Metrics>("/api/metrics");
+    return this.request<Metrics>("/metrics");
   }
 
   // Update metrics (called by your Python backend)
   async updateMetrics(metrics: Metrics): Promise<void> {
-    await this.request("/api/metrics", {
+    await this.request("/metrics", {
       method: "POST",
       body: JSON.stringify(metrics),
     });
